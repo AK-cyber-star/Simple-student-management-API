@@ -1,0 +1,11 @@
+services:
+  databases:
+    image: postgres:latest
+    container_name: learn-spring-container
+    restart: always
+    environment:
+      POSTGRES_USER: learn_spring
+      POSTGRES_PASSWORD: learn_spring
+      POSTGRES_DB: learn_spring
+    ports:
+      - "5433:5432"
