@@ -12,7 +12,5 @@ public class StudentRequest {
     @NotNull @Email
     private String email;
     @NotNull
-    private String password;
-    @NotNull
     private StudentGrade grade;
 }

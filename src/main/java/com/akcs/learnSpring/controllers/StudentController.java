@@ -10,6 +10,7 @@ import com.akcs.learnSpring.services.IStudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("${api.prefix}/students")
+@RequestMapping(value = "${api.prefix}/students", produces = MediaType.APPLICATION_JSON_VALUE)
 public class StudentController {
 
     private final IStudentService studentService;
@@ -44,19 +45,19 @@ public class StudentController {
                 .body(new APIResponse("success", students, Instant.now()));
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<APIResponse> getStudentById(@PathVariable Long id) {
         try {
             StudentDTO student = studentService.getStudentById(id);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new APIResponse("success", student, Instant.now()));
         } catch (StudentNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new APIResponse(e.getMessage(), null, Instant.now()));
         }
     }
 
-    @GetMapping("/student/grade/{grade}")
+    @GetMapping("/grade/{grade}")
     public ResponseEntity<APIResponse> getStudentsByGrade(@PathVariable StudentGrade grade) {
         List<StudentDTO> students = studentService.getStudentsByGrade(grade);
         return ResponseEntity.status(HttpStatus.OK)
@@ -70,7 +71,7 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new APIResponse("success", student, Instant.now()));
         } catch (StudentNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new APIResponse(e.getMessage(), null, Instant.now()));
         }
     }
@@ -79,10 +80,10 @@ public class StudentController {
     public ResponseEntity<APIResponse> deleteStudent(@PathVariable Long id) {
         try {
             studentService.deleteStudent(id);
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body(new APIResponse("success", null, Instant.now()));
         } catch (StudentNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new APIResponse(e.getMessage(), null, Instant.now()));
         }
     }

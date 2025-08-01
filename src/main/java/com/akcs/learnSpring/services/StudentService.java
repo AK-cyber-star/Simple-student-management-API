@@ -35,7 +35,7 @@ public class StudentService implements IStudentService{
 
     @Override
     public List<StudentDTO> getAllStudents() {
-        return studentRepository.findAll()
+        return studentRepository.findAllByOrderByIdAsc()
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -81,6 +81,7 @@ public class StudentService implements IStudentService{
         }
 
         updateStudentFromRequest(request, existingStudent);
+        existingStudent.setId(id);
         studentRepository.save(existingStudent);
 
         return convertToDto(existingStudent);
@@ -110,7 +111,6 @@ public class StudentService implements IStudentService{
         return new Student(
                 request.getName(),
                 request.getEmail(),
-                request.getPassword(),
                 request.getGrade()
         );
     }
@@ -118,7 +118,6 @@ public class StudentService implements IStudentService{
     private void updateStudentFromRequest(StudentRequest request, Student student) {
         student.setName(request.getName());
         student.setEmail(request.getEmail());
-        student.setPassword(request.getPassword());
         student.setGrade(request.getGrade());
     }
 }

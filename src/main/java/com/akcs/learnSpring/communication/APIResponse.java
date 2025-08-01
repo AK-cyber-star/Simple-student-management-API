@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.Instant;
 
+@Data
 @AllArgsConstructor
 public class APIResponse {
     private String message;

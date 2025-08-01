@@ -1,11 +1,23 @@
 services:
+  app:
+    build: .
+    container_name: spring-app
+    ports:
+      - '3000:3000'
+    depends_on:
+      - databases
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://databases:5433/learn_spring
+      - SPRING_DATASOURCE_USERNAME=learn_spring
+      - SPRING_DATASOURCE_PASSWORD=learn_spring
+
   databases:
     image: postgres:latest
     container_name: learn-spring-container
     restart: always
     environment:
-      POSTGRES_USER: learn_spring
-      POSTGRES_PASSWORD: learn_spring
-      POSTGRES_DB: learn_spring
+      - POSTGRES_USER=learn_spring
+      - POSTGRES_PASSWORD=learn_spring
+      - POSTGRES_DB=learn_spring
     ports:
       - "5433:5432"

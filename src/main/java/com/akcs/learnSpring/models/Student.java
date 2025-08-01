@@ -18,15 +18,13 @@ public class Student {
     private String name;
     @Column(unique = true)
     private String email;
-    private String password;
 
     @Enumerated(EnumType.STRING)
     private StudentGrade grade;
 
-    public Student(String name, String email, String password, StudentGrade grade) {
+    public Student(String name, String email, StudentGrade grade) {
             this.name = name;
             this.email = email;
-            this.password = password;
             this.grade = grade;
     }
 }
